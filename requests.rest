@@ -1,0 +1,57 @@
+### create post
+POST http://localhost:3000/posts
+Content-Type: application/json
+
+{
+    "sender": "Noam",
+    "title": "This is my first Post",
+    "content": "That's amazing"
+}
+
+
+### get all posts
+GET http://localhost:3000/posts
+
+### get all posts of user
+GET http://localhost:3000/posts?sender=Noam
+
+### get post by id
+GET http://localhost:3000/posts/6745e2cb34306b156a6a670e
+
+
+### update post by id
+PUT http://localhost:3000/posts/6745e2cb34306b156a6a670e
+Content-Type: application/json
+
+{
+    "content": "I love music"
+}
+
+
+### create comment
+POST http://localhost:3000/comments
+Content-Type: application/json
+
+{
+    "user": "Netanel",
+    "content": "What a beautiful post!",
+    "postId": "6745e2cb34306b156a6a670e"
+} 
+
+### get all comments
+GET http://localhost:3000/comments
+
+
+###get comments by post id
+GET http://localhost:3000/comments/6745e2cb34306b156a6a670e
+
+### update comment by id
+PUT http://localhost:3000/comments/6745e2ed34306b156a6a6716
+Content-Type: application/json
+
+{
+    "content": "What an update!!!"
+}
+
+###delete comment by id
+DELETE  http://localhost:3000/comments/delete/6745e2ed34306b156a6a6716
