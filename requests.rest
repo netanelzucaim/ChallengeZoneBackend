@@ -8,7 +8,6 @@ Content-Type: application/json
     "content": "That's amazing"
 }
 
-
 ### get all posts
 GET http://localhost:3000/posts
 
@@ -16,17 +15,15 @@ GET http://localhost:3000/posts
 GET http://localhost:3000/posts?sender=Noam
 
 ### get post by id
-GET http://localhost:3000/posts/6745e2cb34306b156a6a670e
-
+GET http://localhost:3000/posts/6757f7f435d05aac29575cec
 
 ### update post by id
-PUT http://localhost:3000/posts/6745e2cb34306b156a6a670e
+PUT http://localhost:3000/posts/6757f7f435d05aac29575cec
 Content-Type: application/json
 
 {
     "content": "I love music"
 }
-
 
 ### create comment
 POST http://localhost:3000/comments
@@ -35,18 +32,18 @@ Content-Type: application/json
 {
     "user": "Netanel",
     "content": "What a beautiful post!",
-    "postId": "6745e2cb34306b156a6a670e"
+    "postId": "67546a2c774902f87260f238"
 } 
 
 ### get all comments
 GET http://localhost:3000/comments
 
-
-###get comments by post id
-GET http://localhost:3000/comments/6745e2cb34306b156a6a670e
+###TO DO:
+#  get comments by post id
+# GET http://localhost:3000/comments/675493c7ae0f02cf47fee667
 
 ### update comment by id
-PUT http://localhost:3000/comments/6745e2ed34306b156a6a6716
+PUT http://localhost:3000/comments/6757f8d1d1a268ddf083889c
 Content-Type: application/json
 
 {
@@ -54,4 +51,4 @@ Content-Type: application/json
 }
 
 ###delete comment by id
-DELETE  http://localhost:3000/comments/delete/6745e2ed34306b156a6a6716
+DELETE  http://localhost:3000/posts/60f3b4b3b3b3b3b3b3b3b3
