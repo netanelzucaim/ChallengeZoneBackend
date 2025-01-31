@@ -13,7 +13,9 @@ const register = async (req: Request, res: Response) => {
     try {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-        const newUser = await userModel.create({ email: email, password: hashedPassword });
+        if (!req.body.avatar) req.body.avatar = null
+
+        const newUser = await userModel.create({ email: email, password: hashedPassword,avatar: req.body.avatar });
         res.status(201).send(newUser);
     } catch (error) {
         res.status(400).send(error);

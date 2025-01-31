@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1735409301347" clover="3.2.0">
-  <project timestamp="1735409301348" name="All files">
+<coverage generated="1738326228191" clover="3.2.0">
+  <project timestamp="1738326228191" name="All files">
     <metrics statements="265" coveredstatements="211" conditionals="38" coveredconditionals="18" methods="39" coveredmethods="37" elements="342" coveredelements="266" complexity="0" loc="265" ncloc="265" packages="4" files="11" classes="11"/>
     <package name="src">
       <metrics statements="32" coveredstatements="29" conditionals="2" coveredconditionals="1" methods="5" coveredmethods="4"/>
-      <file name="server.ts" path="C:\temp\Posts\src\server.ts">
+      <file name="server.ts" path="C:\Projects\ChallengeZone - internet\ChallengeZoneBackend\src\server.ts">
         <metrics statements="32" coveredstatements="29" conditionals="2" coveredconditionals="1" methods="5" coveredmethods="4"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -42,7 +42,7 @@
     </package>
     <package name="src.controllers">
       <metrics statements="184" coveredstatements="133" conditionals="36" coveredconditionals="17" methods="28" coveredmethods="27"/>
-      <file name="auth_controller.ts" path="C:\temp\Posts\src\controllers\auth_controller.ts">
+      <file name="auth_controller.ts" path="C:\Projects\ChallengeZone - internet\ChallengeZoneBackend\src\controllers\auth_controller.ts">
         <metrics statements="128" coveredstatements="86" conditionals="31" coveredconditionals="13" methods="17" coveredmethods="17"/>
         <line num="2" count="3" type="stmt"/>
         <line num="3" count="3" type="stmt"/>
@@ -173,7 +173,7 @@
         <line num="193" count="0" type="stmt"/>
         <line num="197" count="3" type="stmt"/>
       </file>
-      <file name="base_controller.ts" path="C:\temp\Posts\src\controllers\base_controller.ts">
+      <file name="base_controller.ts" path="C:\Projects\ChallengeZone - internet\ChallengeZoneBackend\src\controllers\base_controller.ts">
         <metrics statements="36" coveredstatements="29" conditionals="5" coveredconditionals="4" methods="7" coveredmethods="6"/>
         <line num="9" count="6" type="stmt"/>
         <line num="12" count="6" type="stmt"/>
@@ -212,7 +212,7 @@
         <line num="76" count="0" type="stmt"/>
         <line num="78" count="3" type="stmt"/>
       </file>
-      <file name="comment_controller.ts" path="C:\temp\Posts\src\controllers\comment_controller.ts">
+      <file name="comment_controller.ts" path="C:\Projects\ChallengeZone - internet\ChallengeZoneBackend\src\controllers\comment_controller.ts">
         <metrics statements="10" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="2" count="3" type="stmt"/>
         <line num="5" count="3" type="stmt"/>
@@ -225,7 +225,7 @@
         <line num="22" count="0" type="stmt"/>
         <line num="27" count="3" type="stmt"/>
       </file>
-      <file name="post_controller.ts" path="C:\temp\Posts\src\controllers\post_controller.ts">
+      <file name="post_controller.ts" path="C:\Projects\ChallengeZone - internet\ChallengeZoneBackend\src\controllers\post_controller.ts">
         <metrics statements="10" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="2" count="3" type="stmt"/>
         <line num="5" count="3" type="stmt"/>
@@ -241,7 +241,7 @@
     </package>
     <package name="src.models">
       <metrics statements="15" coveredstatements="15" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-      <file name="comment_model.ts" path="C:\temp\Posts\src\models\comment_model.ts">
+      <file name="comment_model.ts" path="C:\Projects\ChallengeZone - internet\ChallengeZoneBackend\src\models\comment_model.ts">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -249,7 +249,7 @@
         <line num="25" count="3" type="stmt"/>
         <line num="26" count="3" type="stmt"/>
       </file>
-      <file name="post_model.ts" path="C:\temp\Posts\src\models\post_model.ts">
+      <file name="post_model.ts" path="C:\Projects\ChallengeZone - internet\ChallengeZoneBackend\src\models\post_model.ts">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="3" type="stmt"/>
         <line num="10" count="3" type="stmt"/>
@@ -257,7 +257,7 @@
         <line num="24" count="3" type="stmt"/>
         <line num="25" count="3" type="stmt"/>
       </file>
-      <file name="user_model.ts" path="C:\temp\Posts\src\models\user_model.ts">
+      <file name="user_model.ts" path="C:\Projects\ChallengeZone - internet\ChallengeZoneBackend\src\models\user_model.ts">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -268,7 +268,7 @@
     </package>
     <package name="src.routes">
       <metrics statements="34" coveredstatements="34" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
-      <file name="auth_routes.ts" path="C:\temp\Posts\src\routes\auth_routes.ts">
+      <file name="auth_routes.ts" path="C:\Projects\ChallengeZone - internet\ChallengeZoneBackend\src\routes\auth_routes.ts">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -279,7 +279,7 @@
         <line num="178" count="3" type="stmt"/>
         <line num="180" count="3" type="stmt"/>
       </file>
-      <file name="comment_routes.ts" path="C:\temp\Posts\src\routes\comment_routes.ts">
+      <file name="comment_routes.ts" path="C:\Projects\ChallengeZone - internet\ChallengeZoneBackend\src\routes\comment_routes.ts">
         <metrics statements="13" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>
@@ -295,7 +295,7 @@
         <line num="228" count="3" type="stmt"/>
         <line num="230" count="3" type="stmt"/>
       </file>
-      <file name="post_routes.ts" path="C:\temp\Posts\src\routes\post_routes.ts">
+      <file name="post_routes.ts" path="C:\Projects\ChallengeZone - internet\ChallengeZoneBackend\src\routes\post_routes.ts">
         <metrics statements="13" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
         <line num="1" count="3" type="stmt"/>
         <line num="2" count="3" type="stmt"/>

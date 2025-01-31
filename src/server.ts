@@ -9,13 +9,25 @@ import authRouter from "./routes/auth_routes"
 import bodyParser from "body-parser";
 import swaggerJsDoc from 'swagger-jsdoc';   
 import swaggerUI from 'swagger-ui-express';
+import fileRoute from "./routes/file_route";
 
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "*");
+  res.header("Access-Control-Allow-Headers", "*");
+  next();
+});
 app.use('/posts',postRouter)
 app.use('/comments',commentRouter)
 app.use('/auth',authRouter)
+app.use("/file", fileRoute);
+app.use("/public", express.static("public"));
+app.use("/storage", express.static("storage"));
+app.use(express.static("front"));
+
 const db = mongoose.connection;
 db.on("error",console.error.bind(console, "connection error:"));
 db.once("open",function(){

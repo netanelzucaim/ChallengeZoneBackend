@@ -5,6 +5,7 @@ export interface iUser {
     password: string,
     _id?: string,
     refreshTokens?: string[],
+    avatar?: string;
   }
 const userSchema = new Schema<iUser>({
     email: {
@@ -17,7 +18,10 @@ const userSchema = new Schema<iUser>({
     }, refreshTokens: {
         type: [String],
         default: []
-  }});
+  },  avatar: {
+    type: String,
+  },
+});
 
 
 const Comments = mongoose.model("User", userSchema);
