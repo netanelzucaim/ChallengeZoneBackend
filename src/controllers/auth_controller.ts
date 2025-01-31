@@ -4,19 +4,23 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 const register = async (req: Request, res: Response) => {
-    const email = req.body.email;
+    const username = req.body.username;
     const password = req.body.password;
-    if (!email || !password) {
-        res.status(400).send("Email and password are required");
+    if (!username || !password) {
+        res.status(400).send("Username and password are required");
+        return;
+    }
+    const existingUser = await userModel.findOne({ username: username });
+    if (existingUser) {
+        res.status(409).send("A user with this username already exists" );
         return;
     }
     try {
         const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-        if (!req.body.avatar) req.body.avatar = null
-
-        const newUser = await userModel.create({ email: email, password: hashedPassword,avatar: req.body.avatar });
-        res.status(201).send(newUser);
+        const hashedPassword = await bcrypt.hash(password, salt);        if (!req.body.avatar) req.body.avatar = null
+        
+        const newUser = await userModel.create({ username: username, password: hashedPassword, avatar: req.body.avatar });
+            res.status(201).send(newUser);
     } catch (error) {
         res.status(400).send(error);
     }
@@ -41,21 +45,21 @@ const generateTokens = (_id: string): { refreshToken: string, accessToken: strin
 };
 
 const login = async (req: Request, res: Response) => {
-    const email = req.body.email;
+    const username = req.body.username;
     const password = req.body.password;
-    if (!email || !password) {
-        res.status(400).send("Wrong email or password");
+    if (!username || !password) {
+        res.status(400).send("Wrong username or password");
         return;
     }
     try {
-        const user = await userModel.findOne({ email: email });
+        const user = await userModel.findOne({ username: username });
         if (!user) {
             res.status(400).send("User not found");
             return;
         }
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) {
-            res.status(400).send("Invalid email or password");
+            res.status(400).send("Invalid username or password");
             return;
         }
         const userId: string = user._id.toString();
@@ -70,7 +74,7 @@ const login = async (req: Request, res: Response) => {
         user.refreshTokens.push(tokens.refreshToken);
         await user.save();
         res.status(200).send({
-            email: user.email,
+            username: user.username,
             accessToken: tokens.accessToken,
             refreshToken: tokens.refreshToken,
             _id: user._id
@@ -80,7 +84,7 @@ const login = async (req: Request, res: Response) => {
     }
 };
 
-const logout = async (req: Request, res: Response) => { 
+const logout = async (req: Request, res: Response) => {
     const refreshToken = req.body.refreshToken;
     if (!refreshToken) {
         res.status(400).send("Refresh token is required");
@@ -171,29 +175,29 @@ type TokenPayload = {
 };
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
-    try{
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
-    if (!token) {
-        res.status(401).send("Missing token");
-        return;
-    }
-    if (!process.env.TOKEN_SECRET) {
-        res.status(400).send("Missing auth configuration");
-        return;
-    }
-    jwt.verify(token, process.env.TOKEN_SECRET, (err: any, data) => {
-        if (err) {
-            res.status(403).send("Invalid token");
+    try {
+        const authHeader = req.headers["authorization"];
+        const token = authHeader && authHeader.split(" ")[1];
+        if (!token) {
+            res.status(401).send("Missing token");
             return;
         }
-        const payload = data as TokenPayload;
-        req.query.userId = payload._id;
-        next();
-    });
-}catch(err){    
-    res.status(400).send(err);
-}
+        if (!process.env.TOKEN_SECRET) {
+            res.status(400).send("Missing auth configuration");
+            return;
+        }
+        jwt.verify(token, process.env.TOKEN_SECRET, (err: any, data) => {
+            if (err) {
+                res.status(403).send("Invalid token");
+                return;
+            }
+            const payload = data as TokenPayload;
+            req.query.userId = payload._id;
+            next();
+        });
+    } catch (err) {
+        res.status(400).send(err);
+    }
 };
 
 export default { register, login, logout, refresh };

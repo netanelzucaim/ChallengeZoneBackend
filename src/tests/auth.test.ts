@@ -21,7 +21,7 @@ afterAll(() => {
 });
 
 type UserInfo = {
-    email: string;
+    username: string;
     password: string;
     accessToken?: string;
     refreshToken?: string;
@@ -29,7 +29,7 @@ type UserInfo = {
 };
 
 const userInfo: UserInfo = {
-    email: "nati@gmail.com",
+    username: "nati@gmail.com",
     password: "123456"
 };
 
@@ -119,7 +119,7 @@ describe("Auth Test", () => {
 
     test("Refresh token multiple usage", async () => {
         const response = await request(app).post("/auth/login").send({
-            email: userInfo.email,
+            username: userInfo.username,
             password: userInfo.password
         });
         expect(response.statusCode).toBe(200);
@@ -151,7 +151,7 @@ describe("Auth Test", () => {
 
     test("Timeout on refresh access token", async () => {
         const response = await request(app).post("/auth/login").send({
-            email: userInfo.email,
+            username: userInfo.username,
             password: userInfo.password
         });
         expect(response.statusCode).toBe(200);

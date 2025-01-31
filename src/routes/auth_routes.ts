@@ -28,17 +28,17 @@ const router = express.Router();
 *     User:
 *       type: object
 *       required:
-*         - email
+*         - username
 *         - password
 *       properties:
-*         email:
+*         username:
 *           type: string
-*           description: The user email
+*           description: The user username
 *         password:
 *           type: string
 *           description: The user password
 *       example:
-*         email: 'bob@gmail.com'
+*         username: 'bob@gmail.com'
 *         password: '123456'
 */
 
@@ -88,9 +88,9 @@ router.post("/register", authController.register);
 *               schema:
 *                   type: object
 *                   properties:
-*                       email:
+*                       username:
 *                           type: string
-*                           description: User email
+*                           description: User username
 *                           example: "nati@gmail.com"
 *                       accessToken:
 *                           type: string
@@ -105,7 +105,7 @@ router.post("/register", authController.register);
 *                           description: User ID
 *                           example: "60d0fe4f5311236168a109ca"
 *       '400':
-*         description: Invalid email or password
+*         description: Invalid username or password
 *       '500':
 *         description: Internal server error
 */
