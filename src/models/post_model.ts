@@ -11,7 +11,7 @@ const Schema = mongoose.Schema;
 const postSchema = new Schema<iPost>({
     postPic: {
         type: String,
-        required: true
+        required: false
     }, sender: {
         type: String,
         required: true
