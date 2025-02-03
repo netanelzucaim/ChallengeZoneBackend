@@ -1,18 +1,18 @@
 import mongoose from "mongoose";
 
 export interface iPost {
-    title: string;
+    postPic: string;
     sender: string;
     content: string;
-  }
-  
+}
+
 
 const Schema = mongoose.Schema;
 const postSchema = new Schema<iPost>({
-    title:{
-        type: String, 
-        required: true
-    },  sender: {
+    postPic: {
+        type: String,
+        required: false
+    }, sender: {
         type: String,
         required: true
     }, content: {

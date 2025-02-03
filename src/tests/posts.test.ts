@@ -52,7 +52,7 @@ describe("Posts test", () => {
         for (const post of testPosts) {
             const response = await request(app).post("/posts").set("authorization", "JWT " + userInfo.token).send(post);
             expect(response.statusCode).toBe(201);
-            expect(response.body.title).toBe(post.title);
+            expect(response.body.postPic).toBe(post.postPic);
             expect(response.body.content).toBe(post.content);
             expect(response.body.sender).toBe(userInfo._id);
             postId = response.body._id;
@@ -60,10 +60,10 @@ describe("Posts test", () => {
     })
     test("Update post", async () => {
 
-        const response = await request(app).put("/posts/" + postId).set("authorization", "JWT " + userInfo.token).send({ "title": "Test post 2 updated" }
+        const response = await request(app).put("/posts/" + postId).set("authorization", "JWT " + userInfo.token).send({ "postPic": "Test post 2 updated" }
         );
         expect(response.statusCode).toBe(200);
-        expect(response.body.title).toBe("Test post 2 updated");
+        expect(response.body.postPic).toBe("Test post 2 updated");
         expect(response.body.content).toBe(testPosts[testPosts.length - 1].content);
     })
     test("Get post By Id", async () => {
@@ -94,7 +94,7 @@ describe("Posts test", () => {
     })
     test("Create a new post failed", async () => {
         const response = await request(app).post("/posts").send({
-            title: "Test Post 1",
+            postPic: "Test Post 1",
         });
         expect(response.statusCode).not.toBe(200);
     })
