@@ -45,7 +45,8 @@ import {authMiddleware} from '../controllers/auth_controller';
 
 
 router.get("/", (req: Request, res: Response) => {
-    postController.getAll(req, res);
+    postController.getPostsWithAvatarUrl(req, res);
+    //when you show posts you need also picture of avatar url
 });
 
 
