@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
     "sender": "Noam",
-    "title": "This is my first Post",
+    "postPic": "This is my first Post",
     "content": "That's amazing"
 }
 

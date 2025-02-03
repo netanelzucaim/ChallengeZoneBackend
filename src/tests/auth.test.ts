@@ -69,7 +69,7 @@ describe("Auth Test", () => {
     test("Get Protected API", async () => {
         const response = await request(app).post("/posts").send({
             sender: userInfo._id,
-            title: "My first post",
+            postPic: "My first post",
             content: "this is my first post"
         });
         expect(response.statusCode).not.toBe(201);
@@ -78,7 +78,7 @@ describe("Auth Test", () => {
             authorization: 'jwt ' + userInfo.accessToken
         }).send({
             sender: userInfo._id,
-            title: "My first post",
+            postPic: "My first post",
             content: "this is my first post"
         });
         expect(response2.statusCode).toBe(201);
@@ -89,7 +89,7 @@ describe("Auth Test", () => {
             authorization: 'jwt ' + userInfo.accessToken + "1"
         }).send({
             sender: userInfo._id,
-            title: "My first post",
+            postPic: "My first post",
             content: "this is my first post"
         });
         expect(response.statusCode).toBe(403);
@@ -166,7 +166,7 @@ describe("Auth Test", () => {
             authorization: 'jwt ' + userInfo.accessToken
         }).send({
             sender: "invalid owner",
-            title: "My First post",
+            postPic: "My First post",
             content: "This is my first post"
         });
         expect(response2.statusCode).not.toBe(201);
@@ -182,7 +182,7 @@ describe("Auth Test", () => {
             authorization: 'jwt ' + userInfo.accessToken
         }).send({
             owner: "invalid owner",
-            title: "My First post",
+            postPic: "My First post",
             content: "This is my first post"
         });
         expect(response4.statusCode).toBe(201);

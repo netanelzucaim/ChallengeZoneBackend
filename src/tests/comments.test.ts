@@ -22,7 +22,7 @@ const userInfo: UserInfo = {
 }
 
 type PostInfo = {
-    title: string;
+    postPic: string;
     content: string;
     _id?: string;
 }
@@ -33,7 +33,7 @@ type CommentInfo = {
     _id?: string;
 }
 const postInfo: PostInfo = {
-    title: "creating post  for checking comment",
+    postPic: "creating post  for checking comment",
     content: "created post for checking comment content",
 
 }

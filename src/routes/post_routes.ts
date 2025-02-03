@@ -1,8 +1,12 @@
 import express, { Request, Response } from 'express';
-const router  = express.Router();
+const router = express.Router();
 import postController from '../controllers/post_controller';
-import {authMiddleware} from '../controllers/auth_controller';
+import { authMiddleware } from '../controllers/auth_controller';
 
+router.get("/user",authMiddleware, (req: Request, res: Response) => {
+    postController.getPostsWithAvatarUrlByUser(req, res);
+    //when you show posts you need also picture of avatar url
+});
 
 /**
 * @swagger
@@ -30,7 +34,7 @@ import {authMiddleware} from '../controllers/auth_controller';
 *               items:
 *                 type: object
 *                 properties:
-*                   title:
+*                   postPic:
 *                     type: string
 *                   content:
 *                     type: string
@@ -44,7 +48,7 @@ import {authMiddleware} from '../controllers/auth_controller';
 
 
 
-router.get("/", (req: Request, res: Response) => {
+router.get("/",authMiddleware, (req: Request, res: Response) => {
     postController.getPostsWithAvatarUrl(req, res);
     //when you show posts you need also picture of avatar url
 });
@@ -72,7 +76,7 @@ router.get("/", (req: Request, res: Response) => {
 *             schema:
 *               type: object
 *               properties:
-*                 title:
+*                 postPic:
 *                   type: string
 *                 content:
 *                   type: string
@@ -85,8 +89,8 @@ router.get("/", (req: Request, res: Response) => {
 *       400:
 *         description: Error getting post
 */
-router.get("/:id",(req: Request, res: Response) =>{
-    postController.getById(req,res)
+router.get("/:id", (req: Request, res: Response) => {
+    postController.getById(req, res)
 });
 
 /**
@@ -104,9 +108,9 @@ router.get("/:id",(req: Request, res: Response) =>{
 *           schema:
 *               type: object
 *               properties:
-*                       title:
+*                       postPic:
 *                           type: string
-*                           description: the post title
+*                           description: the post postPic
 *                           example: "My first post"
 *                       content:
 *                           type: string
@@ -120,9 +124,9 @@ router.get("/:id",(req: Request, res: Response) =>{
 *             schema:
 *               type: object
 *               properties:
-*                       title:
+*                       postPic:
 *                           type: string
-*                           description: the post title
+*                           description: the post postPic
 *                           example: "My first post"
 *                       content:
 *                           type: string
@@ -140,7 +144,7 @@ router.get("/:id",(req: Request, res: Response) =>{
 *         description: error creating post
 */
 
-router.post("/",authMiddleware,postController.createItem.bind(postController));
+router.post("/", authMiddleware, postController.createItem.bind(postController));
 
 /**
 * @swagger
@@ -165,9 +169,9 @@ router.post("/",authMiddleware,postController.createItem.bind(postController));
 *           schema:
 *               type: object
 *               properties:
-*                       title:
+*                       postPic:
 *                           type: string
-*                           description: the post title
+*                           description: the post postPic
 *                           example: "My first post updated"
 *                       content:
 *                           type: string
@@ -181,9 +185,9 @@ router.post("/",authMiddleware,postController.createItem.bind(postController));
 *             schema:
 *               type: object
 *               properties:
-*                       title:
+*                       postPic:
 *                           type: string
-*                           description: the post title
+*                           description: the post postPic
 *                           example: "My first post"
 *                       content:
 *                           type: string
@@ -200,8 +204,8 @@ router.post("/",authMiddleware,postController.createItem.bind(postController));
 *       400:
 *         description: Error in post update
 */
-router.put("/:id",authMiddleware,(req,res) =>{
-    postController.updateById(req,res)
+router.put("/:id", authMiddleware, (req, res) => {
+    postController.updateById(req, res)
 });
 /**
 * @swagger
@@ -225,6 +229,8 @@ router.put("/:id",authMiddleware,(req,res) =>{
 *       400:
 *         description: Post not found
 */
-router.delete("/:id",authMiddleware, postController.deleteItem.bind(postController));
+router.delete("/:id", authMiddleware, postController.deleteItem.bind(postController));
+
+
 
 export default router;

@@ -23,24 +23,51 @@ class PostController extends BaseController<iPost> {
         }   
     }
     async getPostsWithAvatarUrl(req: Request, res: Response) {
-        const filter = req.query;
-        console.log(filter);
         try {
-            const data = await this.model.find(filter as any);
-            // return res.send(data);
-
-            const postsWithAvatar = await Promise.all(data.map(async post => {
-            const user = await userModel.findOne({ _id: post.sender });                return {
+            const posts = await postModel.find();
+            const postsWithAvatar = await Promise.all(posts.map(async post => {
+                const user = await userModel.findOne({ _id: post.sender });
+                return {
                     ...post.toObject(),
-                    avatarUrl: user ? user.avatar : null
-            };
+                    avatarUrl: user ? user.avatar : null,
+                    username: user ? user.username : null
+                };
             }));
-            return res.send(postsWithAvatar);
+            res.status(200).send(postsWithAvatar);
         } catch (err) {
-            return res.status(400).send(err);
+            res.status(400).send(err);
         }
-    
     }
+    async getPostsWithAvatarUrlByUser(req: Request, res: Response) {
+        try {
+            const userId = req.query.userId;
+            const posts = await postModel.find({sender: userId });
+            const postsWithAvatar = await Promise.all(posts.map(async post => {
+                const user = await userModel.findOne({ _id: userId });
+                return {
+                    ...post.toObject(),
+                    avatarUrl: user ? user.avatar : null,
+                    username: user ? user.username : null
+                };
+            }));
+            res.status(200).send(postsWithAvatar);
+        } catch (err) {
+            res.status(400).send(err);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 
