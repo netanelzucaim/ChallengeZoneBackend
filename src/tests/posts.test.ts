@@ -43,7 +43,7 @@ let postId = "";
 
 describe("Posts test", () => {
     test("Get all posts empty", async () => {
-        const response = await request(app).get("/posts");
+        const response = await request(app).get("/posts").set("authorization", "JWT " + userInfo.token);
         expect(response.statusCode).toBe(200)
         expect(response.body.length).toBe(0)
     })
@@ -58,6 +58,7 @@ describe("Posts test", () => {
             postId = response.body._id;
         }
     })
+
     test("Update post", async () => {
 
         const response = await request(app).put("/posts/" + postId).set("authorization", "JWT " + userInfo.token).send({ "postPic": "Test post 2 updated" }
@@ -79,12 +80,12 @@ describe("Posts test", () => {
     });
 
     test("Get all post full", async () => {
-        const response = await request(app).get("/posts");
+        const response = await request(app).get("/posts").set("authorization", "JWT " + userInfo.token);
         expect(response.statusCode).toBe(200)
         expect(response.body.length).toBe(testPosts.length)
     })
     test("Get post by sender", async () => {
-        const response = await request(app).get("/posts?sender=" + userInfo._id);
+        const response = await request(app).get("/posts?sender=" + userInfo._id).set("authorization", "JWT " + userInfo.token);
         const posts = response.body;
         for (const post of posts) {
             expect(post.sender).toBe(userInfo._id)

@@ -4,7 +4,8 @@ import dotenv from 'dotenv'
 dotenv.config();
 import mongoose from "mongoose";
 import postRouter from "./routes/post_routes" 
-import commentRouter from "./routes/comment_routes" 
+import commentRouter from "./routes/comment_routes"
+import userRouter from "./routes/user_routes" 
 import authRouter from "./routes/auth_routes"
 import bodyParser from "body-parser";
 import swaggerJsDoc from 'swagger-jsdoc';   
@@ -22,6 +23,7 @@ app.use((req, res, next) => {
 });
 app.use('/posts',postRouter)
 app.use('/comments',commentRouter)
+app.use('/users',userRouter)
 app.use('/auth',authRouter)
 app.use("/file", fileRoute);
 app.use("/public", express.static("public"));

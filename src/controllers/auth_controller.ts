@@ -163,7 +163,8 @@
                     await user.save();
                     res.status(200).send({
                         accessToken: newTokens.accessToken,
-                        refreshToken: newTokens.refreshToken
+                        refreshToken: newTokens.refreshToken,
+                        username: user.username
                     });
                 } catch (err) {
                     res.status(400).send("Invalid token");

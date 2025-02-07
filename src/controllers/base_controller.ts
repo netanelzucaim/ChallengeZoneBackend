@@ -14,11 +14,13 @@ class BaseController<T> {
         try {
           
             const data = await this.model.find(filter as any);
-            return res.send(data);
+            return res.status(200).send(data);
         } catch (err) {
             return res.status(400).send(err);
         }
     };
+
+    
     async getById(req: Request, res: Response) {
         const id = req.params.id;
         if (id) {
@@ -55,7 +57,9 @@ class BaseController<T> {
     async createItem(req: Request,res:Response) {
         try {
             const data = await this.model.create(req.body);
+            
             res.status(201).send(data);
+            
         } catch (err) {
             res.status(400).send(err);
         }
