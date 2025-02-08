@@ -5,6 +5,7 @@ export interface iPost {
     sender: mongoose.Types.ObjectId; // Change to ObjectId type and reference User model
     content: string;
     comments: mongoose.Types.ObjectId[]; // Add comments field
+    likes?: mongoose.Types.ObjectId[]; // Add likes field
 }
 
 const Schema = mongoose.Schema;
@@ -25,7 +26,11 @@ const postSchema = new Schema<iPost>({
     comments: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Comment'
-    }]
+    }],
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User' // Reference to the User model
+      }]
 });
 
 const postModel = mongoose.model<iPost>("Post", postSchema);

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import postModel, { iPost } from "../models/post_model";
 import commentModel from "../models/comment_model"; // Import the comment model
-import userModel from "../models/user_model"; // Import the user model
+// import userModel from "../models/user_model"; // Import the user model
 import BaseController from "./base_controller";
 import { Model } from "mongoose";
 
@@ -24,9 +24,10 @@ class PostController extends BaseController<iPost> {
         }   
     }
 
-    // async getPostsWithAvatarUrl(req: Request, res: Response) {
+    // async getPostsWithAvatarUrlByUser(req: Request, res: Response) {
     //     try {
-    //         const posts = await this.model.find();
+    //         const userId = req.query.userId;
+    //         const posts = await this.model.find({ sender: userId });
     //         const postsWithAvatar = await Promise.all(posts.map(async post => {
     //             const user = await userModel.findOne({ _id: post.sender });
     //             return {
@@ -39,23 +40,6 @@ class PostController extends BaseController<iPost> {
     //         res.status(400).send(err);
     //     }
     // }
-
-    async getPostsWithAvatarUrlByUser(req: Request, res: Response) {
-        try {
-            const userId = req.query.userId;
-            const posts = await this.model.find({ sender: userId });
-            const postsWithAvatar = await Promise.all(posts.map(async post => {
-                const user = await userModel.findOne({ _id: post.sender });
-                return {
-                    ...post.toObject(),
-                    avatarUrl: user ? user.avatar : null
-                };
-            }));
-            res.status(200).send(postsWithAvatar);
-        } catch (err) {
-            res.status(400).send(err);
-        }
-    }
 
     async addCommentToPost(req: Request, res: Response) {
         try {
