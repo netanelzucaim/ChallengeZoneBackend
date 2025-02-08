@@ -2,6 +2,7 @@
         import userModel from "../models/user_model";
         import bcrypt from "bcrypt";
         import jwt from "jsonwebtoken";
+        import path from 'path';
 
         const register = async (req: Request, res: Response) => {
             const username = req.body.username;
@@ -18,7 +19,7 @@
             try {
                 const salt = await bcrypt.genSalt(10);
                 const hashedPassword = await bcrypt.hash(password, salt);
-                if (!req.body.avatar) req.body.avatar = null
+                if (!req.body.avatar) req.body.avatar = process.env.DOMAIN_BASE +  "/public/avatar.png";
                 
                 const newUser = await userModel.create({ username: username, password: hashedPassword, avatar: req.body.avatar });
                     res.status(201).send(newUser);
