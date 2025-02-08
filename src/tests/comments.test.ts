@@ -8,7 +8,6 @@ import postModel from "../models/post_model"
 import userModel from "../models/user_model"
 
 let app: Express;
-
 type UserInfo = {
     username: string;
     password: string;
@@ -26,16 +25,17 @@ type PostInfo = {
     content: string;
     _id?: string;
 }
+
 type CommentInfo = {
     comment: string;
     postId?: string;
     sender?: string;
     _id?: string;
 }
+
 const postInfo: PostInfo = {
     postPic: "creating post  for checking comment",
     content: "created post for checking comment content",
-
 }
 // TODO: implement these tests by jwt
 beforeAll(async () => {
@@ -53,9 +53,9 @@ beforeAll(async () => {
 
 afterAll(async () => {
     console.log("after all tests");
-    await postModel.deleteMany();
-    await userModel.deleteMany();
-    await commentModel.deleteMany();
+    // await postModel.deleteMany();
+    // await userModel.deleteMany();
+    // await commentModel.deleteMany();
     mongoose.connection.close();
 });
 
@@ -63,7 +63,7 @@ let commentId = "";
 let newComment;
 describe("Comments tests", () => {
     test("Get all comments empty", async () => {
-        const response = await request(app).get("/comments");
+        const response = await request(app).get("/comments").set("authorization", "JWT " + userInfo.token);
         expect(response.statusCode).toBe(200)
         expect(response.body.length).toBe(0)
     })
@@ -87,18 +87,18 @@ describe("Comments tests", () => {
     });
 
     test("Get all comments full", async () => {
-        const response = await request(app).get("/comments");
+        const response = await request(app).get("/comments").set("authorization", "JWT " + userInfo.token);
         expect(response.statusCode).toBe(200)
         expect(response.body.length).toBe(testComments.length)
     })
     test("Get comment By Id", async () => {
-        const response = await request(app).get("/comments/" + commentId);
+        const response = await request(app).get("/comments/" + commentId).set("authorization", "JWT " + userInfo.token);
         const comment = response.body;
         expect(response.statusCode).toBe(200);
         expect(response.body._id).toBe(comment._id);
     });
     test("Get comment By post Id", async () => {
-        const response = await request(app).get("/comments?postId=" + postInfo._id);
+        const response = await request(app).get("/comments?postId=" + postInfo._id).set("authorization", "JWT " + userInfo.token);
         const comments = response.body;
         for (const comment of comments) {
             expect(comment.postId).toBe(postInfo._id)
@@ -129,5 +129,4 @@ describe("Comments tests", () => {
             console.log(err);
         }
     })
-
 });

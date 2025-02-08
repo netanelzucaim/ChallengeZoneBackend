@@ -3,10 +3,10 @@ const router = express.Router();
 import postController from '../controllers/post_controller';
 import { authMiddleware } from '../controllers/auth_controller';
 
-router.get("/user",authMiddleware, (req: Request, res: Response) => {
-    postController.getPostsWithAvatarUrlByUser(req, res);
-    //when you show posts you need also picture of avatar url
-});
+// router.get("/user",authMiddleware, (req: Request, res: Response) => {
+//     postController.getPostsWithAvatarUrlByUser(req, res);
+//     //when you show posts you need also picture of avatar url
+// });
 
 /**
 * @swagger
@@ -48,8 +48,8 @@ router.get("/user",authMiddleware, (req: Request, res: Response) => {
 
 
 
-router.get("/",authMiddleware, (req: Request, res: Response) => {
-    postController.getPostsWithAvatarUrl(req, res);
+router.get("/", (req: Request, res: Response) => {
+    postController.getAll(req, res);
     //when you show posts you need also picture of avatar url
 });
 

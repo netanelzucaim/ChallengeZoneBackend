@@ -2,24 +2,31 @@ import mongoose from "mongoose";
 
 export interface iPost {
     postPic: string;
-    sender: string;
+    sender: mongoose.Types.ObjectId; // Change to ObjectId type and reference User model
     content: string;
+    comments: mongoose.Types.ObjectId[]; // Add comments field
 }
-
 
 const Schema = mongoose.Schema;
 const postSchema = new Schema<iPost>({
     postPic: {
         type: String,
         required: false
-    }, sender: {
+    },
+    sender: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User', // Reference to the User model
+        required: true
+    },
+    content: {
         type: String,
         required: true
-    }, content: {
-        type: String,
-        required: true
-    }
+    },
+    comments: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment'
+    }]
 });
 
 const postModel = mongoose.model<iPost>("Post", postSchema);
-export default postModel
+export default postModel;
