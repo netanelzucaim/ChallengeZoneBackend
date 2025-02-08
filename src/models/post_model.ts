@@ -6,6 +6,7 @@ export interface iPost {
     content: string;
     comments: mongoose.Types.ObjectId[]; // Add comments field
     likes?: mongoose.Types.ObjectId[]; // Add likes field
+    createdAt?: Date; // Add createdAt field
 }
 
 const Schema = mongoose.Schema;
@@ -31,7 +32,7 @@ const postSchema = new Schema<iPost>({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User' // Reference to the User model
       }]
-});
+    }, { timestamps: { createdAt: true, updatedAt: false } }); // Enable only createdAt timestamp
 
 const postModel = mongoose.model<iPost>("Post", postSchema);
 export default postModel;
