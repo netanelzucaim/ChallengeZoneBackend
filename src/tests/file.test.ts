@@ -1,24 +1,27 @@
 import request from "supertest";
 import appInit from "../server";
 import mongoose from "mongoose";
-import e, { Express } from "express";
+import { Express } from "express";
+
 let app: Express;
 beforeAll(async () => {
-    console.log("Before all tests");
     app = await appInit();
+    console.log("Before all tests");
 });
-afterAll(() => {
+afterAll(async () => {
+    await mongoose.connection.close();
     console.log("After all tests");
-    mongoose.connection.close();
 });
 describe("File Tests", () => {
     test("upload file", async () => {
-        const filePath = `${__dirname}/test_file.txt`;
+        const filePath = `${__dirname}/avatar.png`;
+        console.log(filePath)
         try {
             const response = await request(app)
-                .post("/file?file=test_file.txt").attach('file', filePath)
+                .post("/file?file=123.png").attach('file', filePath)
             expect(response.statusCode).toEqual(200);
             let url = response.body.url;
+            console.log(url);
             url = url.replace(/^.*\/\/[^/]+/, '')
             const res = await request(app).get(url)
             expect(res.statusCode).toEqual(200);

@@ -7,9 +7,9 @@
     "testAuth": "tsc && jest --detectOpenHandles --forceExit --coverage auth.test.ts  --runInBand",
     "testPost": "tsc && jest --detectOpenHandles --forceExit --coverage posts.test.ts --runInBand",
     "testComment": "tsc && jest --detectOpenHandles --forceExit --coverage comments.test.ts --runInBand",
-    "testFile": "jest --detectOpenHandles --forceExit file.test.ts",
+    "testFile": "tsc && jest --detectOpenHandles --forceExit --runInBand ./src/tests/file.test.ts",
     "test": "tsc && jest --detectOpenHandles --forceExit  --coverage  --runInBand ",
-    "dev": "copy .env_dev .env && nodemon ./src/app.ts",
+    "dev": "cp .env_dev .env && nodemon ./src/app.ts",
     "start": "copy .env_dev .env && tsc && node ./dist/app.js",
     "lint": "eslint . "
   },
