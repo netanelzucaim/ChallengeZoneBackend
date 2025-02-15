@@ -66,7 +66,9 @@ const router = express.Router();
 *       400:
 *         description: Registration failed
 */
+
 router.post("/register", authController.register);
+router.post("/google", authController.googleSignIn);
 
 /**
 * @swagger

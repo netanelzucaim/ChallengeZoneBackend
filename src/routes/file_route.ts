@@ -2,14 +2,13 @@ import express from "express";
 import multer from "multer";
 import fs from "fs";
 import path from "path";
-
+const router = express.Router();
 
 const base = process.env.DOMAIN_BASE + "/";
-const router = express.Router();
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'storage/')
+        cb(null, 'public/')
     },
     filename: function (req, file, cb) {
         const ext = file.originalname.split('.')
