@@ -1,9 +1,47 @@
         import { Request, Response, NextFunction } from "express";
-        import userModel from "../models/user_model";
+        import userModel, {iUser} from "../models/user_model";
         import bcrypt from "bcrypt";
         import jwt from "jsonwebtoken";
         import path from 'path';
+        import { OAuth2Client } from "google-auth-library";
+        import { Document } from "mongoose";
 
+
+        const client = new OAuth2Client();
+        const googleSignIn = async (req: Request, res: Response) => {
+            console.log(req.body)
+            try{
+                const ticket = await client.verifyIdToken({
+                    idToken: req.body.credential,
+                    audience: process.env.GOOGLE_CLIENT_ID,
+                });
+                const payload = ticket.getPayload();
+                const email = payload?.email;
+                if (email != null){
+                    let user = await userModel.findOne({ 'username': email });
+                    if (user == null){
+                        user = await userModel.create({ username: email, password: '0', avatar: payload?.picture });
+                    }
+                    const tokens = await googleGenerateTokens(user);
+                    res.status(200).send({username: user.username, _id: user._id, avatar: user.avatar, ...tokens});
+                }
+            } catch (err) { 
+                console.log(err)
+            res.status(400).send(err);
+           }
+        }
+
+        const googleGenerateTokens = async (user: Document & iUser) => {
+            const accessToken = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET?.toString() ?? "", {expiresIn: process.env.TOKEN_EXPIRATION});
+            const refreshToken = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET?.toString() ?? "");
+            if(user.refreshTokens == null){
+                user.refreshTokens = [refreshToken];
+            }else{
+                user.refreshTokens.push(refreshToken);
+            }
+            await user.save();
+            return {'accessToken': accessToken, 'refreshToken': refreshToken};
+        }
         const register = async (req: Request, res: Response) => {
             const username = req.body.username;
             const password = req.body.password;
@@ -203,4 +241,4 @@
             }
         };
 
-        export default { register, login, logout, refresh };
+        export default { googleSignIn, register, login, logout, refresh };
