@@ -20,7 +20,7 @@
                 if (email != null){
                     let user = await userModel.findOne({ 'username': email });
                     if (user == null){
-                        user = await userModel.create({ username: email, password: '0', avatar: payload?.picture });
+                        user = await userModel.create({ username: email, displayName: email, password: '0', avatar: payload?.picture });
                     }
                     const tokens = await googleGenerateTokens(user);
                     res.status(200).send({username: user.username, _id: user._id, avatar: user.avatar, ...tokens});
@@ -59,7 +59,7 @@
                 const hashedPassword = await bcrypt.hash(password, salt);
                 if (!req.body.avatar) req.body.avatar = process.env.DOMAIN_BASE +  "/public/avatar.png";
                 
-                const newUser = await userModel.create({ username: username, password: hashedPassword, avatar: req.body.avatar });
+                const newUser = await userModel.create({ username: username, displayName:username, password: hashedPassword, avatar: req.body.avatar });
                     res.status(201).send(newUser);
             } catch (error) {
                 res.status(400).send(error);

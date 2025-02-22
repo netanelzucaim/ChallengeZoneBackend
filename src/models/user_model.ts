@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 export interface iUser {
   username: string,
+  displayName?: string,
   password: string,
   _id?: string,
   refreshTokens?: string[],
@@ -12,6 +13,11 @@ export interface iUser {
 
 const userSchema = new Schema<iUser>({
   username: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  displayName: {
     type: String,
     required: true,
     unique: true
