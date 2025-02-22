@@ -13,7 +13,7 @@ class BaseController<T> {
         console.log(filter);
         try {
           
-            const data = await this.model.find(filter as any);
+            const data = await this.model.find(filter as any).sort({createdAt:-1});
             return res.status(200).send(data);
         } catch (err) {
             return res.status(400).send(err);
