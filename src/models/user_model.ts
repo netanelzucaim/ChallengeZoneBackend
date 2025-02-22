@@ -8,7 +8,6 @@ export interface iUser {
   _id?: string,
   refreshTokens?: string[],
   avatar?: string,
-  likes?: mongoose.Types.ObjectId[]; // Add likes field
 }
 
 const userSchema = new Schema<iUser>({
@@ -32,11 +31,7 @@ const userSchema = new Schema<iUser>({
   },
   avatar: {
     type: String,
-  },
-  likes: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User' // Reference to the User model
-  }]
+  }
 });
 
 const User = mongoose.model<iUser>("User", userSchema);
