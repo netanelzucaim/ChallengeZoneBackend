@@ -11,6 +11,7 @@ import bodyParser from "body-parser";
 import swaggerJsDoc from 'swagger-jsdoc';   
 import swaggerUI from 'swagger-ui-express';
 import fileRoute from "./routes/file_route";
+import groqRouter from "./routes/groq_routes";
 
 
 app.use(bodyParser.json());
@@ -26,6 +27,7 @@ app.use('/comments',commentRouter)
 app.use('/users',userRouter)
 app.use('/auth',authRouter)
 app.use("/file", fileRoute);
+app.use("/ai", groqRouter);
 app.use("/public", express.static("public"));
 app.use("/storage", express.static("storage"));
 app.use(express.static("front"));
