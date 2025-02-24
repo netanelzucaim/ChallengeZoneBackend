@@ -57,10 +57,10 @@ class BaseController<T> {
     async createItem(req: Request,res:Response) {
         try {
             const data = await this.model.create(req.body);
-            
             res.status(201).send(data);
             
         } catch (err) {
+            console.error("Error creating post:", err);
             res.status(400).send(err);
         }
     };

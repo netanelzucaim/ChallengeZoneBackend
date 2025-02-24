@@ -5,7 +5,7 @@ const groq = new Groq({
   apiKey: process.env.AI_SECRET_KEY, // ודא שהמפתח מוגדר בקובץ .env
 });
 
-const getChatResponse = async (req: Request, res: Response): Promise<void> => {
+const getChatResponse = async (req: Request, res: Response) => {
   try {
     const { messages } = req.body;
 
@@ -33,4 +33,24 @@ const getChatResponse = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export default { getChatResponse };
+const getChatResponseRaw = async (req: Request, res: Response) => {
+  try {
+    const { messages } = req.body;
+    if (!messages || !Array.isArray(messages)) {
+      res.status(400).json({ error: "messages array is required" });
+      return;
+    }
+
+    const completion = await groq.chat.completions.create({
+      model: "llama-3.3-70b-versatile", // שנה למודל המתאים לך
+      messages: messages,
+    });
+
+    return completion.choices[0]?.message?.content || "";
+  } catch (error: unknown){
+    console.error("Unexpected error:", error);
+    res.status(500).json({ error: "An unexpected error occurred" });
+  }
+};
+
+export default { getChatResponse, getChatResponseRaw };

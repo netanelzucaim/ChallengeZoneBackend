@@ -145,6 +145,7 @@ router.get("/:id", (req: Request, res: Response) => {
 */
 
 router.post("/", authMiddleware, postController.createItem.bind(postController));
+router.post("/challenge", postController.createItem.bind(postController));
 
 /**
 * @swagger
