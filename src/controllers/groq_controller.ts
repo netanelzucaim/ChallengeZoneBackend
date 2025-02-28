@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Groq from "groq-sdk";
 
 const groq = new Groq({
-  apiKey: process.env.AI_SECRET_KEY, // ודא שהמפתח מוגדר בקובץ .env
+  apiKey: process.env.AI_SECRET_KEY, 
 });
 
 const getChatResponse = async (req: Request, res: Response) => {
@@ -15,7 +15,7 @@ const getChatResponse = async (req: Request, res: Response) => {
     }
 
     const completion = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile", // שנה למודל המתאים לך
+      model: "llama-3.3-70b-versatile", 
       messages: messages,
     });
 
@@ -42,7 +42,7 @@ const getChatResponseRaw = async (req: Request, res: Response) => {
     }
 
     const completion = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile", // שנה למודל המתאים לך
+      model: "llama-3.3-70b-versatile", 
       messages: messages,
     });
 

@@ -97,9 +97,8 @@ class PostController extends BaseController<iPost> {
                 return;
             }
     
-            // שליחת הפוסט דרך קריאה ל-API
             const response = await axios.post("http://localhost:3060/posts/challenge", {
-                sender: process.env.Challeng_Zone_UserID, // מזהה המשתמש
+                sender: process.env.Challeng_Zone_UserID, 
                 content: aiResponse,
             });
     
