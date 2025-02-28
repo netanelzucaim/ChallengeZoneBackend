@@ -1,9 +1,12 @@
-import { Request, Response } from "express";
+import { Request, response, Response } from "express";
 import postModel, { iPost } from "../models/post_model";
 import commentModel from "../models/comment_model"; // Import the comment model
-// import userModel from "../models/user_model"; // Import the user model
+import groqController from "./groq_controller"; // Import the groq model
 import BaseController from "./base_controller";
 import { Model } from "mongoose";
+import cron from "node-cron";
+import axios from "axios";
+
 
 class PostController extends BaseController<iPost> {
     constructor(model: Model<iPost>) {
@@ -12,7 +15,7 @@ class PostController extends BaseController<iPost> {
 
     async createItem(req: Request, res: Response) {
         try {
-            const _id = req.query.userId;
+            const _id = req.body.sender || req.query.userId; //req.body.sender is for the challengeZone cron
             const post = {
                 ...req.body,
                 sender: _id
@@ -20,6 +23,7 @@ class PostController extends BaseController<iPost> {
             req.body = post;
             return super.createItem(req, res);
         } catch (error) {
+            console.error("Error creating post:", error);
             res.status(400).send(error);
         }   
     }
@@ -76,6 +80,43 @@ class PostController extends BaseController<iPost> {
             res.status(400).send(err);
         }
     }
+
+
+    async addChallenge() {
+        try {
+            console.log("Fetching AI-generated fitness challenge...");
+    
+            const aiResponse = await groqController.getChatResponseRaw({
+                body: { messages: [{ role: "user", content: "give me a challenging exercise in the gym or in street workout. Please be short and simple in your answer." }] }
+            } as Request, {} as Response);
+    
+            console.log(aiResponse);
+    
+            if (!aiResponse) {
+                console.error("Failed to get AI response.");
+                return;
+            }
+    
+            // שליחת הפוסט דרך קריאה ל-API
+            const response = await axios.post("http://localhost:3060/posts/challenge", {
+                sender: process.env.Challeng_Zone_UserID, // מזהה המשתמש
+                content: aiResponse,
+            });
+    
+            console.log("Post created successfully:", response.data);
+        } catch (error) {
+            console.error("Error generating AI fitness challenge post:", error);
+            response.status(500).json({ error: "Internal server error" });
+        }
+    }
 }
+const postControllerInstance = new PostController(postModel);
+
+// generate a new challenge every hour
+cron.schedule("0 * * * *", () => {
+    setInterval(() => {
+        postControllerInstance.addChallenge();
+    }, 10000); 
+});
 
 export default new PostController(postModel);
