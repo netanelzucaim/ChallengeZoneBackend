@@ -38,6 +38,8 @@ import {authMiddleware} from '../controllers/auth_controller';
 *                     type: string
 *                   _id:
 *                     type: string
+*                   createdAt:
+*                     type: string
 *       400:
 *         description: Error getting comments
 */
@@ -141,7 +143,7 @@ router.get("/:id",(req: Request, res: Response) =>{
 *                           description: the post id
 *                           example: "60f3b4b3b3b3b3b3b3b3b3"
 *       400:
-*         description: error creating post
+*         description: error creating comment
 */
 
 router.post("/",authMiddleware,commentController.createItem.bind(commentController));
@@ -199,6 +201,10 @@ router.post("/",authMiddleware,commentController.createItem.bind(commentControll
 *                           example: "60f3b4b3b3b3b3b3b3b3b3"
 *       400:
 *         description: Error in comment update
+*       401:
+*         description: Unauthorized
+*       403:
+*         description: Invalid token
 */
 router.put("/:id",authMiddleware,(req,res) =>{
     commentController.updateById(req,res)
@@ -224,6 +230,8 @@ router.put("/:id",authMiddleware,(req,res) =>{
 *         description: Comment deleted successfully
 *       400:
 *         description: Comment not found
+*       403:
+*         description: Invalid token
 */
 router.delete("/:id",authMiddleware, commentController.deleteItem.bind(commentController));
 
