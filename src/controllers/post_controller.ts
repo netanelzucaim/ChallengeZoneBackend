@@ -6,6 +6,8 @@ import BaseController from "./base_controller";
 import { Model } from "mongoose";
 import cron from "node-cron";
 import axios from "axios";
+import * as fs from 'node:fs'
+import path from "path";
 
 
 class PostController extends BaseController<iPost> {
@@ -72,8 +74,21 @@ class PostController extends BaseController<iPost> {
             // Delete all comments associated with the post
             await commentModel.deleteMany({ _id: { $in: post.comments } });
 
+
+            // Check if there is an image attached to the post and delete it
+        if (post.postPic) {
+            const imageFileName = post.postPic.split("/public/")[1];
+            const imagePath = path.join(__dirname, "../..", "public", imageFileName); // Assuming 'image' contains the image file path
+            if (fs.existsSync(imagePath)) {
+                fs.unlinkSync(imagePath); // Delete the file
+            }
+        }
+
+
             // Delete the post
             await this.model.findByIdAndDelete(id);
+
+           
 
             res.status(200).send("Post and associated comments deleted successfully");
         } catch (err) {
