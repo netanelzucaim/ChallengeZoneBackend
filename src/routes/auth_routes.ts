@@ -12,18 +12,13 @@ const router = express.Router();
 */
 
 /**
-* @swagger
+* @swagger  
 * components:
 *   securitySchemes:
 *     bearerAuth:
 *       type: http
 *       scheme: bearer
 *       bearerFormat: JWT
-*/
-
-/**
-* @swagger  
-* components:
 *   schemas:
 *     User:
 *       type: object
@@ -38,7 +33,7 @@ const router = express.Router();
 *           type: string
 *           description: The user password
 *       example:
-*         username: 'bob@gmail.com'
+*         username: 'bob'
 *         password: '123456'
 */
 
@@ -65,16 +60,44 @@ const router = express.Router();
 *
 *       400:
 *         description: Registration failed
+*       409:
+*         description: Username already exists
 */
 
 router.post("/register", authController.register);
+
+
+/**
+ * @swagger
+ * /auth/google:
+ *   post:
+ *     summary: sign in with google
+ *     tags: [Auth] 
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               credential:
+ *                 type: string
+ *                 description: The google credential of the user
+ *                 example: "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc2M2Y3YzRjZ..."
+ *     responses:
+ *       200:
+ *         description: Google login successful
+ *       400:
+ *         description: Invalid credential
+ *       
+ */
 router.post("/google", authController.googleSignIn);
 
 /**
 * @swagger
 * /auth/login:
 *   post:
-*     summary: Authenticate a user and return access and refresh tokens.
+*     summary: Authenticate a user and return access and refresh tokens
 *     tags: [Auth]
 *     requestBody:
 *       required: true
@@ -93,7 +116,7 @@ router.post("/google", authController.googleSignIn);
 *                       username:
 *                           type: string
 *                           description: User username
-*                           example: "nati@gmail.com"
+*                           example: "bob"
 *                       accessToken:
 *                           type: string
 *                           description: JWT access token
@@ -108,6 +131,8 @@ router.post("/google", authController.googleSignIn);
 *                           example: "60d0fe4f5311236168a109ca"
 *       '400':
 *         description: Invalid username or password
+*       '401':
+*         description: Unauthorized
 *       '500':
 *         description: Internal server error
 */

@@ -27,7 +27,7 @@
                 }
             } catch (err) { 
                 console.log(err)
-            res.status(400).send(err);
+                res.status(400).json({ error: "Invalid request", details: err});
            }
         }
 
@@ -105,7 +105,7 @@
                 const userId: string = user._id.toString();
                 const tokens = generateTokens(userId);
                 if (!tokens) {
-                    res.status(400).send("Missing auth configuration");
+                    res.status(401).send("Missing auth configuration");
                     return;
                 }
                 if (user.refreshTokens == null) {
@@ -120,7 +120,7 @@
                     _id: user._id
                 });
             } catch (err) {
-                res.status(400).send(err);
+                res.status(500).send("Internal server error" + err);
             }
         };
 
@@ -237,7 +237,7 @@
                     next();
                 });
             } catch (err) {
-                res.status(400).send(err);
+                res.status(400).json({ error: "Invalid request", details: err });
             }
         };
 

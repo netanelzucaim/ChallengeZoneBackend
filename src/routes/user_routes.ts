@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-const router  = express.Router();
+const router = express.Router();
 import userController from '../controllers/user_controller';
 import {authMiddleware} from '../controllers/auth_controller';
 
@@ -7,22 +7,22 @@ import {authMiddleware} from '../controllers/auth_controller';
 /**
 * @swagger
 * tags:
-*   name: Comments
-*   description: The Comments API
+*   name: Users
+*   description: The Users API
 */
 
 
 
 /**
 * @swagger
-* /comments:
+* /users:
 *   get:
-*     summary: Get all comments
-*     description: Retrieve all comments
-*     tags: [Comments]
+*     summary: Get all users
+*     description: Retrieve all users
+*     tags: [Users]
 *     responses:
 *       200:
-*         description: Comments retrieved successfully
+*         description: users retrieved successfully
 *         content:
 *           application/json:
 *             schema:
@@ -30,18 +30,15 @@ import {authMiddleware} from '../controllers/auth_controller';
 *               items:
 *                 type: object
 *                 properties:
-*                   postId:
+*                   username:
 *                     type: string
-*                   comment:
-*                     type: string
-*                   sender:
+*                   displayName:
 *                     type: string
 *                   _id:
 *                     type: string
 *       400:
-*         description: Error getting comments
+*         description: Error getting users
 */
-
 
 
 router.get("/", (req: Request, res: Response) => {
@@ -51,31 +48,29 @@ router.get("/", (req: Request, res: Response) => {
 
 /**
 * @swagger
-* /comments/{id}:
+* /users/{id}:
 *   get:
-*     summary: Get a comment by ID
-*     description: Retrieve a comment by its ID
-*     tags: [Comments]
+*     summary: Get a user by ID
+*     description: Retrieve a user by its ID
+*     tags: [Users]
 *     parameters:
 *       - in: path
 *         name: id
 *         schema:
 *           type: string
 *         required: true
-*         description: The ID of the comment to retrieve
+*         description: The ID of the user to retrieve
 *     responses:
 *       200:
-*         description: Comment retrieved successfully
+*         description: User retrieved successfully
 *         content:
 *           application/json:
 *             schema:
 *               type: object
 *               properties:
-*                 postId:
+*                 username:
 *                   type: string
-*                 comment:
-*                   type: string
-*                 sender:
+*                 displayName:
 *                   type: string
 *                 _id:
 *                   type: string
@@ -88,80 +83,22 @@ router.get("/:id",(req: Request, res: Response) =>{
     userController.getById(req,res)
 });
 
-
 /**
 * @swagger
-* /comments:
-*   post:
-*     summary: add a new comment
-*     tags: [Comments]
-*     security:
-*       - bearerAuth: []
-*     requestBody:
-*       required: true
-*       content:
-*         application/json:
-*           schema:
-*               type: object
-*               properties:
-*                       postId:
-*                           type: string
-*                           description: the post id 
-*                           example: "60f3b4b3b3b3b3b3b3b3b3"
-*                       comment:
-*                           type: string
-*                           description: the comment content
-*                           example: "This is my first comment ....."
-*                       sender:
-*                           type: string
-*                           description: the comment's sender id
-*                           example: "60f3b4b3b3b3b3b3b3b3b3"
-*     responses:
-*       201:
-*         description: The comment was successfully created
-*         content:
-*           application/json:
-*             schema:
-*               type: object
-*               properties:
-*                       postId:
-*                           type: string
-*                           description: the post id 
-*                           example: "60f3b4b3b3b3b3b3b3b3b3"
-*                       comment:
-*                           type: string
-*                           description: the comment content
-*                           example: "This is my first comment ....."
-*                       sender:
-*                           type: string
-*                           description: the comment's sender id
-*                           example: "60f3b4b3b3b3b3b3b3b3b3"
-*                       _id:
-*                           type: string
-*                           description: the post id
-*                           example: "60f3b4b3b3b3b3b3b3b3b3"
-*       400:
-*         description: error creating post
-*/
-
-router.post("/",authMiddleware,userController.createItem.bind(userController));
-
-/**
-* @swagger
-* /comments/{id}:
+* /users/{id}:
 *   put:
-*     summary: Update comment
-*     description: Update a comment by its ID
+*     summary: Update user
+*     description: Update a displayName by its ID
 *     security:
 *       - bearerAuth: []
-*     tags: [Comments]
+*     tags: [Users]
 *     parameters:
 *       - in: path
 *         name: id
 *         schema:
 *           type: string
 *         required: true
-*         description: The ID of the comment to update
+*         description: The ID of the user to update
 *     requestBody:
 *       required: false
 *       content:
@@ -169,62 +106,35 @@ router.post("/",authMiddleware,userController.createItem.bind(userController));
 *           schema:
 *               type: object
 *               properties:
-*                       comment:
+*                       diaplayName:
 *                           type: string
-*                           description: the comment content updated
-*                           example: "This is my comment updated"
+*                           description: the new displayName updated
+*                           example: "This is my displatName updated"
 *     responses:
 *       200:
-*         description: The comment was successfully updated
+*         description: The displayName of the user was successfully updated
 *         content:
 *           application/json:
 *             schema:
 *               type: object
 *               properties:
-*                       postId:
+*                       username:
 *                           type: string
-*                           description: the post id 
-*                           example: "60f3b4b3b3b3b3b3b3b3b3"
-*                       comment:
+*                           description: the username
+*                           example: "reuven@gmail.com"
+*                       displayName:
 *                           type: string
-*                           description: the comment content
-*                           example: "This is my first comment ....."
-*                       sender:
-*                           type: string
-*                           description: the comment's sender id
-*                           example: "60f3b4b3b3b3b3b3b3b3b3"
+*                           description: the user displayName
+*                           example: "rubi"
 *                       _id:
 *                           type: string
 *                           description: the comment id
 *                           example: "60f3b4b3b3b3b3b3b3b3b3"
 *       400:
-*         description: Error in comment update
+*         description: Error in user update
 */
 router.put("/:id",authMiddleware,(req,res) =>{
     userController.updateById(req,res)
 });
-/**
-* @swagger
-* /comments/{id}:
-*   delete:
-*     summary: Delete a comment
-*     description: Delete a comment by its ID
-*     security:
-*       - bearerAuth: []
-*     tags: [Comments]
-*     parameters:
-*       - in: path
-*         name: id
-*         schema:
-*           type: string
-*         required: true
-*         description: The ID of the comment to delete
-*     responses:
-*       200:
-*         description: Comment deleted successfully
-*       400:
-*         description: Comment not found
-*/
-router.delete("/:id",authMiddleware, userController.deleteItem.bind(userController));
 
 export default router;

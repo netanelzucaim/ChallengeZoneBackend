@@ -3,19 +3,12 @@ const router = express.Router();
 import postController from '../controllers/post_controller';
 import { authMiddleware } from '../controllers/auth_controller';
 
-// router.get("/user",authMiddleware, (req: Request, res: Response) => {
-//     postController.getPostsWithAvatarUrlByUser(req, res);
-//     //when you show posts you need also picture of avatar url
-// });
-
 /**
 * @swagger
 * tags:
 *   name: Posts
 *   description: The Posts API
 */
-
-
 
 /**
 * @swagger
@@ -45,21 +38,15 @@ import { authMiddleware } from '../controllers/auth_controller';
 *       400:
 *         description: Error getting posts
 */
-
-
-
 router.get("/", (req: Request, res: Response) => {
     postController.getAll(req, res);
-    //when you show posts you need also picture of avatar url
 });
-
 
 /**
 * @swagger
 * /posts/{id}:
 *   get:
 *     summary: Get a post by ID
-*     description: Retrieve a post by its ID
 *     tags: [Posts]
 *     parameters:
 *       - in: path
@@ -67,37 +54,23 @@ router.get("/", (req: Request, res: Response) => {
 *         schema:
 *           type: string
 *         required: true
-*         description: The ID of the post to retrieve
 *     responses:
 *       200:
 *         description: Post retrieved successfully
-*         content:
-*           application/json:
-*             schema:
-*               type: object
-*               properties:
-*                 postPic:
-*                   type: string
-*                 content:
-*                   type: string
-*                 sender:
-*                   type: string
-*                 _id:
-*                   type: string
 *       404:
 *         description: Post not found
 *       400:
 *         description: Error getting post
 */
 router.get("/:id", (req: Request, res: Response) => {
-    postController.getById(req, res)
+    postController.getById(req, res);
 });
 
 /**
 * @swagger
 * /posts:
 *   post:
-*     summary: add a new post
+*     summary: Add a new post
 *     tags: [Posts]
 *     security:
 *       - bearerAuth: []
@@ -107,44 +80,26 @@ router.get("/:id", (req: Request, res: Response) => {
 *         application/json:
 *           schema:
 *               type: object
+*               required: [content, sender]
 *               properties:
-*                       postPic:
-*                           type: string
-*                           description: the post postPic
-*                           example: "My first post"
-*                       content:
-*                           type: string
-*                           description: the post content
-*                           example: "This is my first post ....."
+*                 postPic:
+*                   type: string
+*                   description: URL of the post image
+*                   example: "https://example.com/image.jpg"
+*                 content:
+*                   type: string
+*                   description: Post text content
+*                   example: "This is my first post!"
 *     responses:
 *       201:
-*         description: The post was successfully created
-*         content:
-*           application/json:
-*             schema:
-*               type: object
-*               properties:
-*                       postPic:
-*                           type: string
-*                           description: the post postPic
-*                           example: "My first post"
-*                       content:
-*                           type: string
-*                           description: the post content
-*                           example: "This is my first post ....."
-*                       sender:
-*                           type: string
-*                           description: the post sender
-*                           example: "60f3b4b3b3b3b3b3b3b3b3b3"
-*                       _id:
-*                           type: string
-*                           description: the post id
-*                           example: "60f3b4b3b3b3b3b3b3b3b3"
+*         description: Post created successfully
 *       400:
 *         description: error creating post
 */
-
 router.post("/", authMiddleware, postController.createItem.bind(postController));
+
+
+//no need to swagger because the use of this route is internal
 router.post("/challenge", postController.createItem.bind(postController));
 
 /**
@@ -152,17 +107,15 @@ router.post("/challenge", postController.createItem.bind(postController));
 * /posts/{id}:
 *   put:
 *     summary: Update post
-*     description: Update a post by its ID
+*     tags: [Posts]
 *     security:
 *       - bearerAuth: []
-*     tags: [Posts]
 *     parameters:
 *       - in: path
 *         name: id
 *         schema:
 *           type: string
 *         required: true
-*         description: The ID of the post to update
 *     requestBody:
 *       required: false
 *       content:
@@ -170,68 +123,44 @@ router.post("/challenge", postController.createItem.bind(postController));
 *           schema:
 *               type: object
 *               properties:
-*                       postPic:
-*                           type: string
-*                           description: the post postPic
-*                           example: "My first post updated"
-*                       content:
-*                           type: string
-*                           description: the post content
-*                           example: "This is my first post updated ....."
+*                 content:
+*                   type: string
+*                 postPic:
+*                   type: string
 *     responses:
 *       200:
-*         description: The post was successfully updated
-*         content:
-*           application/json:
-*             schema:
-*               type: object
-*               properties:
-*                       postPic:
-*                           type: string
-*                           description: the post postPic
-*                           example: "My first post"
-*                       content:
-*                           type: string
-*                           description: the post content
-*                           example: "This is my first post ....."
-*                       sender:
-*                           type: string
-*                           description: the post sender
-*                           example: "60f3b4b3b3b3b3b3b3b3b3b3"
-*                       _id:
-*                           type: string
-*                           description: the post id
-*                           example: "60f3b4b3b3b3b3b3b3b3b3"
+*         description: Post updated successfully
+*       401:
+*         description: Unauthorized
 *       400:
 *         description: Error in post update
-*/
+* */
 router.put("/:id", authMiddleware, (req, res) => {
-    postController.updateById(req, res)
+    postController.updateById(req, res);
 });
+
 /**
 * @swagger
 * /posts/{id}:
 *   delete:
 *     summary: Delete post
-*     description: Delete a post by its ID
+*     tags: [Posts]
 *     security:
 *       - bearerAuth: []
-*     tags: [Posts]
 *     parameters:
 *       - in: path
 *         name: id
 *         schema:
 *           type: string
 *         required: true
-*         description: The ID of the post to delete
 *     responses:
 *       200:
 *         description: Post deleted successfully
+*       401:
+*         description: Unauthorized
 *       400:
 *         description: Post not found
 */
 router.delete("/:id", authMiddleware, postController.deleteItem.bind(postController));
-
-
 
 export default router;
