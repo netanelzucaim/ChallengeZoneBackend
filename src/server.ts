@@ -46,7 +46,7 @@ const options = {
         version: "1.0.0",
         description: "REST server including authentication using JWT",
       },
-      servers: [{ url: "http://localhost:3060", },],
+      servers: [{ url: "http://10.10.246.80", },{ url: "https://10.10.246.80", }],
     },
     apis: ["./src/routes/*.ts"],
   };
