@@ -1,22 +1,23 @@
-import appInit from "./server"
-import https from "https"
-import fs from "fs"
+import appInit from "./server";
+import https from "https";
+import fs from "fs";
+import path from "path";
 
 const port = process.env.PORT;
 
 appInit().then((app) => {
-     app.listen(port, () => {
-      if (process.env.NODE_ENV != "production") {
-        app.listen(port, () => {
-          console.log(`Example app listening at http://localhost:${port}`);
-        });
-      } else {
-        console.log("succcess")
+    // if (process.env.NODE_ENV != "production") {
+    //     app.listen(port, () => {
+    //         console.log(`Example app listening at http://localhost:${port}`);
+    //     });
+    // } else {
+        console.log("success");
         const prop = {
-          key: fs.readFileSync("client-key.pem"),
-          cert: fs.readFileSync("client-cert.pem")
-        }
-        https.createServer(prop, app).listen(port)
-      }
-     });
-   });
+            key: fs.readFileSync(path.join(__dirname, "../../server.key")), // Adjust the path
+            cert: fs.readFileSync(path.join(__dirname, "../../server.crt")) // Adjust the path
+        };
+        https.createServer(prop, app).listen(port, () => {
+                   console.log(`Example app listening at http://localhost:${port}`);
+       });
+    // }
+});
