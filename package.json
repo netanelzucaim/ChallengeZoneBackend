@@ -10,7 +10,7 @@
     "testFile": "tsc && jest --detectOpenHandles --forceExit --runInBand ./src/tests/file.test.ts",
     "test": "tsc && jest --detectOpenHandles --forceExit  --coverage  --runInBand ",
     "dev": "copy .env_dev .env && nodemon ./src/app.ts",
-    "prod": "copy .env_prod .env && tsc -p tsconfig_prod.json &&  node ./dist/src/app.js",
+    "prod": "cp .env_prod .env && tsc -p tsconfig_prod.json &&  pm2 restart ecosystem.config.js --env production",
     "start": "tsc && node ./dist/src/app.js",
     "lint": "eslint . "
   },
@@ -44,10 +44,7 @@
     "typescript-eslint": "^8.17.0",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.7",
-    "@types/node-cron": "^3.0.11"
-
-  },
-  "devDependencies": {
+    "@types/node-cron": "^3.0.11",
     "@eslint/js": "^9.16.0",
     "@types/jest": "^29.5.14",
     "@types/supertest": "^6.0.2",
@@ -56,5 +53,8 @@
     "nodemon": "^3.1.7",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5"
+  },
+  "devDependencies": {
+
   }
 }
