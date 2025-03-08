@@ -46,7 +46,8 @@ const getChatResponseRaw = async (req: Request, res: Response) => {
       messages: messages,
     });
 
-    return completion.choices[0]?.message?.content || "";
+    const theResponse = completion.choices[0]?.message?.content || "";
+    res.status(200).send(theResponse);
   } catch (error: unknown){
     console.error("Unexpected error:", error);
     res.status(500).json({ error: "An unexpected error occurred" });
