@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.75% </span>
+                <span class="strong">62.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>21/48</span>
+                <span class='fraction'>30/48</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/5</span>
+                <span class='fraction'>3/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/6</span>
+                <span class='fraction'>4/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">43.75% </span>
+                <span class="strong">62.5% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>21/48</span>
+                <span class='fraction'>30/48</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -255,28 +255,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -285,7 +285,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -348,7 +348,7 @@ class PostController extends BaseController&lt;iPost&gt; {
         } catch (error) {
 <span class="cstat-no" title="statement not covered" >            console.error("Error creating post:", error);</span>
 <span class="cstat-no" title="statement not covered" >            res.status(400).send(error);</span>
-        }   
+        }
     }
 &nbsp;
     // async getPostsWithAvatarUrlByUser(req: Request, res: Response) {
@@ -382,38 +382,38 @@ class PostController extends BaseController&lt;iPost&gt; {
         }
     }
 &nbsp;
-    async <span class="fstat-no" title="function not covered" >deleteItem(</span>req: Request, res: Response): Promise&lt;void&gt; {
-        const id = <span class="cstat-no" title="statement not covered" >req.params.id;</span>
-<span class="cstat-no" title="statement not covered" >        try {</span>
+    async deleteItem(req: Request, res: Response): Promise&lt;void&gt; {
+        const id = req.params.id;
+        try {
             // Find the post by ID
-            const post = <span class="cstat-no" title="statement not covered" >await this.model.findById(id);</span>
-<span class="cstat-no" title="statement not covered" >            <span class="missing-if-branch" title="if path not taken" >I</span>if (!post) {</span>
+            const post = await this.model.findById(id);
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (!post) {
 <span class="cstat-no" title="statement not covered" >                res.status(404).send("Post not found");</span>
 <span class="cstat-no" title="statement not covered" >                return;</span>
             }
 &nbsp;
             // Delete all comments associated with the post
-<span class="cstat-no" title="statement not covered" >            await commentModel.deleteMany({ _id: { $in: post.comments } });</span>
+            await commentModel.deleteMany({ _id: { $in: post.comments } });
 &nbsp;
 &nbsp;
             // Check if there is an image attached to the post and delete it
-<span class="cstat-no" title="statement not covered" >        <span class="missing-if-branch" title="if path not taken" >I</span>if (post.postPic) {</span>
-            const imageFileName = <span class="cstat-no" title="statement not covered" >post.postPic.split("/public/")[1];</span>
-            const imagePath = <span class="cstat-no" title="statement not covered" >path.join(__dirname, "../..", "public", imageFileName);</span> // Assuming 'image' contains the image file path
-<span class="cstat-no" title="statement not covered" >            <span class="missing-if-branch" title="if path not taken" >I</span>if (fs.existsSync(imagePath)) {</span>
-<span class="cstat-no" title="statement not covered" >                fs.unlinkSync(imagePath); </span>// Delete the file
+            if (post.postPic) {
+                const imageFileName = post.postPic.split("/public/")[1];
+                const imagePath = path.join(__dirname, "../..", "public", imageFileName); // Assuming 'image' contains the image file path
+<span class="cstat-no" title="statement not covered" >                <span class="missing-if-branch" title="if path not taken" >I</span>if (fs.existsSync(imagePath)) {</span>
+<span class="cstat-no" title="statement not covered" >                    fs.unlinkSync(imagePath); </span>// Delete the file
+                }
             }
-        }
 &nbsp;
 &nbsp;
             // Delete the post
 <span class="cstat-no" title="statement not covered" >            await this.model.findByIdAndDelete(id);</span>
 &nbsp;
-           
+&nbsp;
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            res.status(200).send("Post and associated comments deleted successfully");</span>
         } catch (err) {
-<span class="cstat-no" title="statement not covered" >            res.status(400).send(err);</span>
+            res.status(400).send(err);
         }
     }
 &nbsp;
@@ -421,18 +421,18 @@ class PostController extends BaseController&lt;iPost&gt; {
     async <span class="fstat-no" title="function not covered" >addChallenge(</span>) {
 <span class="cstat-no" title="statement not covered" >        try {</span>
 <span class="cstat-no" title="statement not covered" >            console.log("Fetching AI-generated fitness challenge...");</span>
-    
+&nbsp;
             const aiResponse = <span class="cstat-no" title="statement not covered" >await groqController.getChatResponseRaw({</span>
                 body: { messages: [{ role: "user", content: "give me a challenging exercise in the gym or in street workout. Please be short and simple in your answer." }] }
             } as Request, {} as Response);
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >            console.log(aiResponse);</span>
-    
+&nbsp;
             const response = <span class="cstat-no" title="statement not covered" >await axios.post("http://127.0.0.1:3060/posts/challenge", {</span>
-                sender: process.env.Challeng_Zone_UserID, 
+                sender: process.env.Challeng_Zone_UserID,
                 content: aiResponse,
             });
-    
+&nbsp;
 <span class="cstat-no" title="statement not covered" >            console.log("Post created successfully:", response.data);</span>
         } catch (error) {
 <span class="cstat-no" title="statement not covered" >            console.error("Error generating AI fitness challenge post:", error);</span>
@@ -454,7 +454,7 @@ export default new PostController(postModel);</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-05T18:57:38.692Z
+                at 2025-03-18T07:28:44.523Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

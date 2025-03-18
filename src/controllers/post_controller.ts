@@ -27,7 +27,7 @@ class PostController extends BaseController<iPost> {
         } catch (error) {
             console.error("Error creating post:", error);
             res.status(400).send(error);
-        }   
+        }
     }
 
     // async getPostsWithAvatarUrlByUser(req: Request, res: Response) {
@@ -76,19 +76,19 @@ class PostController extends BaseController<iPost> {
 
 
             // Check if there is an image attached to the post and delete it
-        if (post.postPic) {
-            const imageFileName = post.postPic.split("/public/")[1];
-            const imagePath = path.join(__dirname, "../..", "public", imageFileName); // Assuming 'image' contains the image file path
-            if (fs.existsSync(imagePath)) {
-                fs.unlinkSync(imagePath); // Delete the file
+            if (post.postPic) {
+                const imageFileName = post.postPic.split("/public/")[1];
+                const imagePath = path.join(__dirname, "../..", "public", imageFileName); // Assuming 'image' contains the image file path
+                if (fs.existsSync(imagePath)) {
+                    fs.unlinkSync(imagePath); // Delete the file
+                }
             }
-        }
 
 
             // Delete the post
             await this.model.findByIdAndDelete(id);
 
-           
+
 
             res.status(200).send("Post and associated comments deleted successfully");
         } catch (err) {
@@ -100,18 +100,18 @@ class PostController extends BaseController<iPost> {
     async addChallenge() {
         try {
             console.log("Fetching AI-generated fitness challenge...");
-    
+
             const aiResponse = await groqController.getChatResponseRaw({
                 body: { messages: [{ role: "user", content: "give me a challenging exercise in the gym or in street workout. Please be short and simple in your answer." }] }
             } as Request, {} as Response);
-    
+
             console.log(aiResponse);
-    
+
             const response = await axios.post("http://127.0.0.1:3060/posts/challenge", {
-                sender: process.env.Challeng_Zone_UserID, 
+                sender: process.env.Challeng_Zone_UserID,
                 content: aiResponse,
             });
-    
+
             console.log("Post created successfully:", response.data);
         } catch (error) {
             console.error("Error generating AI fitness challenge post:", error);
