@@ -122,7 +122,7 @@ class PostController extends BaseController<iPost> {
 const postControllerInstance = new PostController(postModel);
 
 // generate a new challenge every hour
-cron.schedule("0 * * * *", () => {
+cron.schedule("* * * * *", () => {
     postControllerInstance.addChallenge();
 });
 
