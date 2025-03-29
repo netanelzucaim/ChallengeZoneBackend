@@ -33,9 +33,9 @@ app.use("/public", express.static("public"));
 app.use("/storage", express.static("storage"));
 app.use(express.static("front"));
 
-app.use(express.static(path.join(__dirname, '../front')));
+app.use(express.static(path.join(__dirname, '../../front')));
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../front', 'index.html'), (err) => {
+  res.sendFile(path.join(__dirname, '../../front', 'index.html'), (err) => {
       if (err) {
           res.status(500).send(err);
       }
