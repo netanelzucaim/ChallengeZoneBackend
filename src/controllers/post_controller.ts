@@ -102,7 +102,7 @@ class PostController extends BaseController<iPost> {
             console.log("Fetching AI-generated fitness challenge...");
     
             const aiResponse = await groqController.getChatResponseCore([
-                { role: "user", content: "give me a challenging exercise in the gym or in street workout. Please be short and simple in your answer." }
+                { role: "user", content: "give me a challenging exercise in the gym or in street workout. Please be short and simple in your answer." } as ChatMessage
             ]);
     
             console.log("AI Response:", aiResponse);
@@ -126,8 +126,7 @@ class PostController extends BaseController<iPost> {
             console.error("Error generating AI fitness challenge post:", error);
             throw new Error("Internal server error");
         }
-    }
-}
+    }}
 const postControllerInstance = new PostController(postModel);
 
 // generate a new challenge every hour
