@@ -107,7 +107,7 @@ class PostController extends BaseController<iPost> {
 
             console.log(aiResponse);
 
-            const response = await axios.post("http://127.0.0.1:3060/posts/challenge", {
+            const response = await axios.post("http://127.0.0.1:443/posts/challenge", {
                 sender: process.env.Challeng_Zone_UserID,
                 content: aiResponse,
             });
