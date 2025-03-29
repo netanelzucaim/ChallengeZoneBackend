@@ -23,6 +23,23 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Headers", "*");
   next();
 });
+
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Web Dev 2025 REST API",
+      version: "1.0.0",
+      description: "API documentaion for ChallengeZone",
+    },
+    servers: [{ url: "https://node80.cs.colman.ac.il" },{ url: "http://localhost:3060" }],
+  },
+  apis: ["./src/routes/*.ts"],
+};
+
+const specs = swaggerJsDoc(swaggerOptions);
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
+
 app.use('/posts',postRouter)
 app.use('/comments',commentRouter)
 app.use('/users',userRouter)
@@ -42,26 +59,19 @@ app.get('/*', (req, res) => {
   });
 });
 
+(app._router.stack as Array<{ route?: { path: string } }>).forEach((middleware: { route?: { path: string } }) => {
+  if (middleware.route) {
+      console.log(middleware.route.path);
+  }
+});
+
 const db = mongoose.connection;
 db.on("error",console.error.bind(console, "connection error:"));
 db.once("open",function(){
     console.log("connected to the database");
 })
-
-const options = {
-    definition: {
-      openapi: "3.0.0",
-      info: {
-        title: "Web Dev 2025 REST API",
-        version: "1.0.0",
-        description: "REST server including authentication using JWT",
-      },
-      servers: [{ url: "https://node80.cs.colman.ac.il" },{ url: "http://localhost:3060" }],
-    },
-    apis: ["./src/routes/*.ts"],
-  };
-  const specs = swaggerJsDoc(options);
-  app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
+  
+  
   
 const initApp = () => {
     return new Promise<Express>( (resolve,reject) =>{
