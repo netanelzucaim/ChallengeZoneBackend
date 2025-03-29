@@ -9,11 +9,17 @@ import axios from "axios";
 import * as fs from 'node:fs'
 import path from "path";
 
+interface ChatMessage {
+    role: "user" | "assistant" | "system";
+    content: string;
+  }
+  
 
 class PostController extends BaseController<iPost> {
     constructor(model: Model<iPost>) {
         super(model);
     }
+    
 
     async createItem(req: Request, res: Response) {
         try {
