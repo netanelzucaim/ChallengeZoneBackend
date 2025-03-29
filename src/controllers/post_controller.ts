@@ -121,18 +121,16 @@ class PostController extends BaseController<iPost> {
             }
     
             const apiUrl = process.env.NODE_ENV === "production"
-                ? "https://node80.cs.colman.ac.il/posts/challenge"
+                ? "https://localhost:443/posts/challenge"
                 : "http://localhost:3060/posts/challenge";
     
-            const cert = fs.readFileSync(path.join(__dirname, "../../client-cert.pem"));
             const agent = new https.Agent({
-                ca: cert, // Add the certificate to the trusted list
+                rejectUnauthorized: false
             });
             const response = await axios.post(apiUrl, {
                 sender: process.env.Challeng_Zone_UserID,
                 content: aiResponse,
-            },
-        {httpsAgent : agent});
+            },{httpsAgent : agent});
     
             console.log("Post created successfully:", response.data);
         } catch (error) {
