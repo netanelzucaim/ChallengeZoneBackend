@@ -12,6 +12,7 @@ import swaggerJsDoc from 'swagger-jsdoc';
 import swaggerUI from 'swagger-ui-express';
 import fileRoute from "./routes/file_route";
 import groqRouter from "./routes/groq_routes";
+import path from "path";
 
 
 app.use(bodyParser.json());
@@ -31,6 +32,15 @@ app.use("/ai", groqRouter);
 app.use("/public", express.static("public"));
 app.use("/storage", express.static("storage"));
 app.use(express.static("front"));
+
+app.use(express.static(path.join(__dirname, '../front')));
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../front', 'index.html'), (err) => {
+      if (err) {
+          res.status(500).send(err);
+      }
+  });
+});
 
 const db = mongoose.connection;
 db.on("error",console.error.bind(console, "connection error:"));
