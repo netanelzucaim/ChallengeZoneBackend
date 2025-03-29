@@ -132,7 +132,7 @@ class PostController extends BaseController<iPost> {
                 sender: process.env.Challeng_Zone_UserID,
                 content: aiResponse,
             },
-        {httpAgent : agent});
+        {httpsAgent : agent});
     
             console.log("Post created successfully:", response.data);
         } catch (error) {
