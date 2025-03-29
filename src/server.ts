@@ -67,6 +67,15 @@ const initApp = () => {
        }
     })
 }
+import path from "path";
+
+// משרת את קבצי ה-Frontend
+app.use(express.static(path.join(__dirname, "front")));
+
+// ניתוב מחדש לכל Route שלא שייך ל-API
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "front", "index.html"));
+});
 
 export default initApp
 
