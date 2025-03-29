@@ -100,22 +100,31 @@ class PostController extends BaseController<iPost> {
     async addChallenge() {
         try {
             console.log("Fetching AI-generated fitness challenge...");
-
-            const aiResponse = await groqController.getChatResponseRaw({
-                body: { messages: [{ role: "user", content: "give me a challenging exercise in the gym or in street workout. Please be short and simple in your answer." }] }
-            } as Request, {} as Response);
-
-            console.log(aiResponse);
-
-            const response = await axios.post("https://node80.cs.colman.ac.il/posts/challenge", {
+    
+            const aiResponse = await groqController.getChatResponseCore([
+                { role: "user", content: "give me a challenging exercise in the gym or in street workout. Please be short and simple in your answer." }
+            ]);
+    
+            console.log("AI Response:", aiResponse);
+    
+            if (!aiResponse) {
+                console.error("Failed to get AI response.");
+                return;
+            }
+    
+            const apiUrl = process.env.NODE_ENV === "production"
+                ? "https://node80.cs.colman.ac.il/posts/challenge"
+                : "http://localhost:3060/posts/challenge";
+    
+            const response = await axios.post(apiUrl, {
                 sender: process.env.Challeng_Zone_UserID,
                 content: aiResponse,
             });
-
+    
             console.log("Post created successfully:", response.data);
         } catch (error) {
             console.error("Error generating AI fitness challenge post:", error);
-            response.status(500).json({ error: "Internal server error" });
+            throw new Error("Internal server error");
         }
     }
 }

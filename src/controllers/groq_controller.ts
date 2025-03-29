@@ -33,25 +33,29 @@ const getChatResponse = async (req: Request, res: Response) => {
   }
 };
 
+const getChatResponseCore = async (messages: []) => {
+  if (!messages || !Array.isArray(messages)) {
+    throw new Error("messages array is required");
+  }
+
+  const completion = await groq.chat.completions.create({
+    model: "llama-3.3-70b-versatile",
+    messages: messages,
+  });
+
+  return completion.choices[0]?.message?.content || "";
+};
+
 const getChatResponseRaw = async (req: Request, res: Response) => {
   try {
     const { messages } = req.body;
-    if (!messages || !Array.isArray(messages)) {
-      res.status(400).json({ error: "messages array is required" });
-      return;
-    }
-
-    const completion = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile", 
-      messages: messages,
-    });
-
-    const theResponse = completion.choices[0]?.message?.content || "";
+    const theResponse = await getChatResponseCore(messages);
     res.status(200).send(theResponse);
-  } catch (error: unknown){
+  } catch (error: unknown) {
     console.error("Unexpected error:", error);
     res.status(500).json({ error: "An unexpected error occurred" });
   }
 };
 
-export default { getChatResponse, getChatResponseRaw };
+
+export default { getChatResponse, getChatResponseRaw, getChatResponseCore };
