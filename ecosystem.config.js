@@ -1,3 +1,5 @@
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
   apps : [{
     script: './dist/src/app.js',
@@ -5,5 +7,14 @@ module.exports = {
     env_production: {
       NODE_ENV: "production"
     }
-  }]
+  }],
+  devServer: {
+    historyApiFallback: true,
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'src/index.html'
+    })
+  ]
+
 }
