@@ -8,6 +8,8 @@ import cron from "node-cron";
 import axios from "axios";
 import * as fs from 'node:fs'
 import path from "path";
+import https from "https";
+import { agent } from "supertest";
 
 interface ChatMessage {
     role: "user" | "assistant" | "system";
@@ -122,10 +124,15 @@ class PostController extends BaseController<iPost> {
                 ? "https://node80.cs.colman.ac.il/posts/challenge"
                 : "http://localhost:3060/posts/challenge";
     
+            const cert = fs.readFileSync(path.join(__dirname, "../../client-cert.pem"));
+            const agent = new https.Agent({
+                ca: cert, // Add the certificate to the trusted list
+            });
             const response = await axios.post(apiUrl, {
                 sender: process.env.Challeng_Zone_UserID,
                 content: aiResponse,
-            });
+            },
+        {httpAgent : agent});
     
             console.log("Post created successfully:", response.data);
         } catch (error) {
