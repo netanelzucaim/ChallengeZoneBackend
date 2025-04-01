@@ -1,0 +1,21 @@
+[req]
+default_bits = 2048
+distinguished_name = challengezone
+req_extensions = v3_req
+prompt = no
+
+[challengezone]
+C = AU
+ST = Some-State
+O = Internet Widgits Pty Ltd
+CN = challengezone
+
+[v3_req]
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = node80.cs.colman.ac.il
+IP.1 = 10.10.246.80
+IP.2 = 127.0.0.1
