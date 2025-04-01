@@ -13,8 +13,8 @@ appInit().then((app) => {
     } else {
         console.log("success");
         const prop = {
-            key: fs.readFileSync(path.join(__dirname, "../NewCert/client-key.pem")), // Adjust the path
-            cert: fs.readFileSync(path.join(__dirname, "../NewCert/client-cert.pem")) // Adjust the path
+            key: fs.readFileSync(path.join(__dirname, "../../NewCert/client-key.pem")), // Adjust the path
+            cert: fs.readFileSync(path.join(__dirname, "../../NewCert/client-cert-new.pem")) // Adjust the path
         };
         https.createServer(prop, app).listen(port, () => {
                    console.log(`production environment running at https://localhost:${port}`);

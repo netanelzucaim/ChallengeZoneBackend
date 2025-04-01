@@ -13,9 +13,10 @@ CN = challengezone
 [v3_req]
 keyUsage = critical, digitalSignature, keyEncipherment
 extendedKeyUsage = serverAuth
-subjectAltName = @alt_names
 
 [alt_names]
 DNS.1 = node80.cs.colman.ac.il
+DNS.2 = node80.cs.colman.ac.il:443
+DNS.3 = node80.cs.colman.ac.il/login
 IP.1 = 10.10.246.80
 IP.2 = 127.0.0.1
