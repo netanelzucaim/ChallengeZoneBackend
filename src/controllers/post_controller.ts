@@ -8,12 +8,20 @@ import cron from "node-cron";
 import axios from "axios";
 import * as fs from 'node:fs'
 import path from "path";
+import https from "https";
+import { agent } from "supertest";
 
+interface ChatMessage {
+    role: "user" | "assistant" | "system";
+    content: string;
+  }
+  
 
 class PostController extends BaseController<iPost> {
     constructor(model: Model<iPost>) {
         super(model);
     }
+    
 
     async createItem(req: Request, res: Response) {
         try {
@@ -27,7 +35,7 @@ class PostController extends BaseController<iPost> {
         } catch (error) {
             console.error("Error creating post:", error);
             res.status(400).send(error);
-        }   
+        }
     }
 
     // async getPostsWithAvatarUrlByUser(req: Request, res: Response) {
@@ -76,19 +84,19 @@ class PostController extends BaseController<iPost> {
 
 
             // Check if there is an image attached to the post and delete it
-        if (post.postPic) {
-            const imageFileName = post.postPic.split("/public/")[1];
-            const imagePath = path.join(__dirname, "../..", "public", imageFileName); // Assuming 'image' contains the image file path
-            if (fs.existsSync(imagePath)) {
-                fs.unlinkSync(imagePath); // Delete the file
+            if (post.postPic) {
+                const imageFileName = post.postPic.split("/public/")[1];
+                const imagePath = path.join(__dirname, "../..", "public", imageFileName); // Assuming 'image' contains the image file path
+                if (fs.existsSync(imagePath)) {
+                    fs.unlinkSync(imagePath); // Delete the file
+                }
             }
-        }
 
 
             // Delete the post
             await this.model.findByIdAndDelete(id);
 
-           
+
 
             res.status(200).send("Post and associated comments deleted successfully");
         } catch (err) {
@@ -101,29 +109,35 @@ class PostController extends BaseController<iPost> {
         try {
             console.log("Fetching AI-generated fitness challenge...");
     
-            const aiResponse = await groqController.getChatResponseRaw({
-                body: { messages: [{ role: "user", content: "give me a challenging exercise in the gym or in street workout. Please be short and simple in your answer." }] }
-            } as Request, {} as Response);
+            const aiResponse = await groqController.getChatResponseCore([
+                { role: "user", content: "give me a challenging exercise in the gym or in street workout. Please be short and simple in your answer." } as ChatMessage
+            ]);
     
-            console.log(aiResponse);
+            console.log("AI Response:", aiResponse);
     
             if (!aiResponse) {
                 console.error("Failed to get AI response.");
                 return;
             }
     
-            const response = await axios.post("http://localhost:3060/posts/challenge", {
-                sender: process.env.Challeng_Zone_UserID, 
-                content: aiResponse,
+            const apiUrl = process.env.NODE_ENV === "production"
+                ? "https://localhost:443/posts/challenge"
+                : "http://localhost:3060/posts/challenge";
+    
+            const agent = new https.Agent({
+                rejectUnauthorized: false
             });
+            const response = await axios.post(apiUrl, {
+                sender: process.env.Challeng_Zone_UserID,
+                content: aiResponse,
+            },{httpsAgent : agent});
     
             console.log("Post created successfully:", response.data);
         } catch (error) {
             console.error("Error generating AI fitness challenge post:", error);
-            response.status(500).json({ error: "Internal server error" });
+            throw new Error("Internal server error");
         }
-    }
-}
+    }}
 const postControllerInstance = new PostController(postModel);
 
 // generate a new challenge every hour

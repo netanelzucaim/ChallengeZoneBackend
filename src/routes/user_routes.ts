@@ -106,7 +106,7 @@ router.get("/:id",(req: Request, res: Response) =>{
 *           schema:
 *               type: object
 *               properties:
-*                       diaplayName:
+*                       displayName:
 *                           type: string
 *                           description: the new displayName updated
 *                           example: "This is my displatName updated"
